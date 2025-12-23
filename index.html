@@ -27,15 +27,57 @@
 
         .handwriting { font-family: 'Dancing Script', cursive; }
 
+        /* --- MÀN HÌNH NHẮC XOAY NGANG --- */
+        #rotate-notice {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: var(--soft-pink);
+            z-index: 9999;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: var(--text-dark);
+        }
+
+        /* Hiển thị khi điện thoại để dọc */
+        @media screen and (orientation: portrait) {
+            #rotate-notice { display: flex; }
+        }
+
+        .phone-icon {
+            width: 50px; height: 90px;
+            border: 3px solid var(--text-dark);
+            border-radius: 10px;
+            margin-bottom: 20px;
+            position: relative;
+            animation: rotateDevice 2s infinite ease-in-out;
+        }
+
+        .phone-icon::after {
+            content: '';
+            position: absolute; bottom: 5px; left: 50%;
+            transform: translateX(-50%);
+            width: 8px; height: 8px;
+            border: 2px solid var(--text-dark);
+            border-radius: 50%;
+        }
+
+        @keyframes rotateDevice {
+            0% { transform: rotate(0deg); }
+            50% { transform: rotate(-90deg); }
+            100% { transform: rotate(-90deg); }
+        }
+
         /* --- DẢI ĐÈN --- */
         .lights { position: fixed; top: 0; width: 100%; display: flex; justify-content: space-around; padding: 5px 0; z-index: 1500; }
         .light { width: 15px; height: 15px; border-radius: 50%; animation: blink 0.8s infinite alternate; }
         @keyframes blink { from { opacity: 0.3; transform: scale(0.8); } to { opacity: 1; transform: scale(1.1); box-shadow: 0 0 15px currentColor; } }
 
-        /* --- LOADING --- */
+        /* --- LOADING & PASS --- */
         #loading-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #ffc2d1; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 2000; transition: opacity 0.8s ease; }
-
-        /* --- BẢNG MẬT KHẨU --- */
         #password-screen { display: none; text-align: center; z-index: 1000; background: rgba(255, 255, 255, 0.95); padding: 20px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 85%; max-width: 300px; }
         #password-input { padding: 12px; border-radius: 20px; border: 2px solid var(--red-flat); outline: none; text-align: center; font-family: 'Quicksand'; width: 90%; font-size: 16px; margin-bottom: 15px; box-sizing: border-box; }
 
@@ -47,35 +89,24 @@
             transition: opacity 1s ease, transform 1s ease-in-out; 
         }
         .card-container.is-visible { display: block; opacity: 1; }
-        
-        /* Hiệu ứng lật trên mobile: Dịch chuyển ít hơn để không tràn màn hình */
         .card-container.is-open { transform: translateX(25%); }
 
         .book { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transition: 1.2s cubic-bezier(0.645, 0.045, 0.355, 1); }
         .page { width: 100%; height: 100%; position: absolute; top: 0; left: 0; border-radius: 12px; transform-origin: left; transition: 1.2s; box-shadow: 0 4px 15px rgba(0,0,0,0.1); overflow: hidden; }
-        
         .cover-front { background: var(--red-flat); color: white; z-index: 10; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 20px; backface-visibility: hidden; border: 2px solid white; cursor: pointer; }
-        
         .page-left { background: #fff9fa; z-index: 9; transform: rotateY(0deg); backface-visibility: visible; border: 1px solid #ffe5ec; }
-        .page-left-content { 
-            transform: rotateY(180deg); display: flex; flex-direction: column; 
-            align-items: center; width: 100%; height: 100%; justify-content: center; padding: 10px; box-sizing: border-box;
-        }
-
+        .page-left-content { transform: rotateY(180deg); display: flex; flex-direction: column; align-items: center; width: 100%; height: 100%; justify-content: center; padding: 10px; box-sizing: border-box; }
         .book.open .cover-front, .book.open .page-left { transform: rotateY(-180deg); }
         .page-right { background: white; z-index: 1; padding: 20px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; border: 1px solid #ffe5ec; }
-        
         .ny-photo { width: 90%; height: 65%; object-fit: cover; border: 4px solid white; border-radius: 8px; box-shadow: 0 3px 10px rgba(0,0,0,0.1); }
 
-        /* Nút bí mật */
+        /* --- SECRET GIFT --- */
         #secret-btn-wrapper { position: absolute; bottom: -60px; left: 50%; transform: translateX(-50%); z-index: 100; opacity: 0; display: none; transition: 1s ease; }
         #secret-btn-wrapper.slide-down { display: block; opacity: 1; bottom: 20px; }
-        #secret-btn { padding: 10px 20px; background: white; color: var(--red-flat); border: 2px dashed var(--red-flat); border-radius: 30px; font-weight: 700; }
-
-        /* Panel quà tặng */
+        #secret-btn { padding: 10px 20px; background: white; color: var(--red-flat); border: 2px dashed var(--red-flat); border-radius: 30px; font-weight: 700; cursor: pointer; }
         #gift-panel { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.8); width: 85%; max-width: 320px; background: white; border-radius: 20px; padding: 15px; box-shadow: 0 0 50px rgba(0,0,0,0.3); z-index: 3000; text-align: center; opacity: 0; transition: 0.5s ease; }
         #gift-panel.show { display: block; opacity: 1; transform: translate(-50%, -50%) scale(1); }
-        .secret-img { width: 100%; border-radius: 12px; max-height: 350px; object-fit: cover; margin-bottom: 10px; }
+        .secret-img { width: 100%; border-radius: 12px; max-height: 300px; object-fit: cover; }
 
         /* Vật trang trí */
         .object { position: fixed; bottom: -10px; font-size: 80px; transition: 1s ease; opacity: 0; z-index: 5; }
@@ -84,11 +115,17 @@
 
         @media (min-width: 800px) {
             .card-container.is-open { transform: translateX(160px); }
-            .object { font-size: 200px; }
+            .object { font-size: 150px; }
         }
     </style>
 </head>
 <body>
+
+    <div id="rotate-notice">
+        <div class="phone-icon"></div>
+        <h2 class="handwriting">Bbi ơi, hãy xoay ngang điện thoại</h2>
+        <p>để nhận quà trọn vẹn nhất nhé! ❤️</p>
+    </div>
 
     <audio id="bg-music" src="music.mp3" loop preload="auto"></audio>
 
@@ -101,14 +138,14 @@
     <div id="password-screen">
         <h2 class="handwriting" style="color: var(--red-flat); font-size: 1.8rem;">Mật khẩu là gì ấy nhỉ:3</h2>
         <input type="text" id="password-input" placeholder="Nhập câu trả lời...">
-        <button class="capsule-2d" onclick="checkPassword()" style="padding: 10px 30px; font-size: 16px; background: var(--red-flat); color: white; border: none; border-radius: 20px;">Xác nhận</button>
+        <button onclick="checkPassword()" style="padding: 10px 30px; font-size: 16px; background: var(--red-flat); color: white; border: none; border-radius: 20px; cursor: pointer;">Xác nhận</button>
         <p id="error-msg" style="color: red; font-size: 0.8rem; margin-top: 10px; display: none;">Sai ròi coi kĩ xem có nhầm khem! ❤️</p>
     </div>
 
     <div class="lights" id="light-container"></div>
 
     <div id="start-btn-container" style="display: none; z-index: 1000;">
-        <button class="capsule-2d" onclick="startExperience()" style="padding: 15px 30px; background: var(--red-flat); color: white; border: 2px solid white; border-radius: 50px; font-weight: bold; font-size: 1.2rem;">Ấn vô đây đii ❤️</button>
+        <button onclick="startExperience()" style="padding: 15px 30px; background: var(--red-flat); color: white; border: 2px solid white; border-radius: 50px; font-weight: bold; font-size: 1.2rem; cursor: pointer;">Ấn vô đây đii ❤️</button>
     </div>
 
     <div class="card-container" id="cardContainer">
@@ -118,9 +155,9 @@
                 <div style="font-size: 0.9rem; line-height: 1.4; color: var(--text-dark);">
                     <p>Chúc bbi của bin giáng sinh vui vẻ nhó.</p>
                     <p>Bin hay bị bí từ lém nên là...</p>
-                    <p>Bin chúc ngọc giáng sinh vui vẻe!</p>
+                    <p>Chúc Ngọc luôn xinh đẹp, hạnh phúc!</p>
                     <p>Mạnh khỏe, ham ăn chóng lớn</p>
-                    <p>Và cùng bin đi qua nhìu mùa giáng sinh nữa nhá:3</p>
+                    <p>Và cùng bin đi qua nhìu mùa Noel nữa nhé!</p>
                 </div>
                 <p style="font-size: 1.2rem; margin: 5px 0;">🎄✨🎁</p>
             </div>
@@ -152,7 +189,7 @@
     <div id="gift-box" class="object">🎁</div>
 
     <script>
-        // Các hàm xử lý giữ nguyên logic nhưng tối ưu mượt mà hơn cho mobile
+        // Xử lý đếm ngược và đèn
         window.onload = function() {
             let timeLeft = 5;
             const timerElement = document.getElementById('timer');
@@ -188,18 +225,35 @@
             const correctPass = "bin iu ngọc nhớt";
             if (input === correctPass) {
                 document.getElementById('password-screen').style.display = 'none';
-                const startBtn = document.getElementById('start-btn-container');
-                startBtn.style.display = 'block';
+                document.getElementById('start-btn-container').style.display = 'block';
             } else {
-                const errorMsg = document.getElementById('error-msg');
-                errorMsg.style.display = 'block';
+                document.getElementById('error-msg').style.display = 'block';
                 document.getElementById('password-input').style.borderColor = 'red';
             }
         }
 
-        function startExperience() {
+        // HÀM QUAN TRỌNG: KÍCH HOẠT FULLSCREEN VÀ XOAY NGANG
+        async function startExperience() {
             const music = document.getElementById('bg-music');
             if(music) music.play().catch(() => console.log("Cần tương tác để phát nhạc"));
+
+            try {
+                // Yêu cầu Toàn màn hình (Bắt buộc để khóa xoay trên Android)
+                const elem = document.documentElement;
+                if (elem.requestFullscreen) {
+                    await elem.requestFullscreen();
+                } else if (elem.webkitRequestFullscreen) {
+                    await elem.webkitRequestFullscreen();
+                }
+
+                // Khóa màn hình ngang
+                if (screen.orientation && screen.orientation.lock) {
+                    await screen.orientation.lock('landscape').catch(e => console.log("Xoay bị chặn: ", e));
+                }
+            } catch (err) {
+                console.log("Không thể tự xoay: ", err);
+            }
+
             document.getElementById('start-btn-container').style.display = 'none';
             document.getElementById('cardContainer').classList.add('is-visible');
         }
